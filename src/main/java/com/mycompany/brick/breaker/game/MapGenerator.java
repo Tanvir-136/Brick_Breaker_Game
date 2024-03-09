@@ -24,7 +24,6 @@ public class MapGenerator {
         
         // Calculate the width of each brick
         bricksWidth = 540 / col;
-        
         // Calculate the height of each brick
         bricksHeight = 150 / row;
     }

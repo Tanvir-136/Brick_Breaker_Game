@@ -19,8 +19,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private Timer Timer;
     private int delay = 8;
     private int playerX = 310;
-    private int ballposX = 120;
-    private int ballposY = 350;
+    private int ballposX = 350;
+    private int ballposY = 530;
     private int ballXdir = -1;
     private int ballYdir = -2;
     private MapGenerator map;
@@ -52,7 +52,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         // Draw the score
         g.setColor(Color.white);
         g.setFont(new Font("serif", Font.BOLD, 25));
-        g.drawString("" + score, 590, 30);
+        g.drawString("Score: " + score, 590, 30);
 
         // Draw the player paddle
         g.setColor(Color.yellow);
@@ -69,11 +69,12 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             ballYdir = 0;
             g.setColor(Color.red);
             g.setFont(new Font("serif", Font.BOLD, 30));
-            g.drawString("    Game Over Score: " + score, 190, 300);
+            g.drawString("Game Over Score: " + score, 190, 300);
 
             g.setFont(new Font("serif", Font.BOLD, 30));
-            g.drawString("   Press Enter to Restart!", 190, 340);
+            g.drawString("Press Enter to Restart!", 190, 340);
         }
+
         //!!~Game Win~!!
         if(totalbricks == 0){
         // Set play to false and stop the ball
@@ -97,7 +98,6 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         g.dispose();
     }
 
-     
     // Method to handle action events
     @Override
     public void actionPerformed(ActionEvent e) {
