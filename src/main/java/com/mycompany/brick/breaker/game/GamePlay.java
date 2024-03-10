@@ -15,21 +15,23 @@ import java.awt.event.KeyListener;
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private boolean play = false;
     private int score = 0;
-    private int totalbricks = 21;
+    private int totalbricks = 0;
     private Timer Timer;
     private int delay = 8;
     private int playerX = 310;
     private int ballposX = 350;
     private int ballposY = 530;
-    private int ballXdir = -1;
-    private int ballYdir = -2;
+    private int ballXdir = -2;
+    private int ballYdir = -5;
     private MapGenerator map;
+    
 
     public GamePlay() {
-        map = new MapGenerator(3, 7);
+        // Create a new map for the first level
+        map = new MapGenerator(3, 7); // Change parameters for new level
+        totalbricks = map.totalBricks(); // Update totalbricks
         addKeyListener(this);
         setFocusable(true);
-        setFocusTraversalKeysEnabled(false);
         Timer = new Timer(delay, this);
         Timer.start();
     }
@@ -51,7 +53,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         
         // Draw the score
         g.setColor(Color.white);
-        g.setFont(new Font("serif", Font.BOLD, 25));
+        g.setFont(new Font("serif", Font.BOLD, 20));
         g.drawString("Score: " + score, 590, 30);
 
         // Draw the player paddle
@@ -102,7 +104,6 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Timer.start();
-        // Check if the game is being played
         if (play) {
             // Collision detection with bar
             if (new Rectangle(ballposX, ballposY, 20, 20).intersects(new Rectangle(playerX, 550, 100, 8))) {
@@ -154,10 +155,18 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             if (ballposX > 670) {
                 ballXdir = -ballXdir;
             }
-        }
+            if (totalbricks == 0) {
+            // Proceed to the next level
+                if (map.map.length == 4 && map.map[0].length == 12) {
+                    play = false;
+                } else {
+                    map = new MapGenerator(4, 12);
+                    initNewLevel(4, 12);
+                }
+            }
         repaint();
     }
-
+}
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -187,8 +196,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             if (!play) {
                 ballposX = 120;
                 ballposY = 350;
-                ballXdir = -1;
-                ballYdir = -2;
+                ballXdir = -2;
+                ballYdir = -5;
                 score = 0;
                 playerX = 310;
                 totalbricks = 21;
@@ -205,5 +214,27 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     public void moveLeft (){
         play = true;
         playerX -= 20;
+    }
+     // Add a method to initialize a new level
+    public void initNewLevel(int rows, int cols) {
+        map = new MapGenerator(rows, cols); 
+        totalbricks = map.totalBricks(); 
+        resetPlayer(); 
+        resetBall(); 
+        score = 0; 
+        play = true; 
+    }
+
+    // Method to reset player position
+    private void resetPlayer() {
+        playerX = 310; 
+    }
+
+    // Method to reset ball position and direction
+    private void resetBall() {
+        ballposX = 350; 
+        ballposY = 530; 
+        ballXdir = -2; 
+        ballYdir = -5;     
     }
 }
